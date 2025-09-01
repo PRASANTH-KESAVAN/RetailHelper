@@ -1,0 +1,127 @@
+# Database Configuration for Retail Customer Analytics
+
+# Primary Database Configuration
+database:
+  type: "${DATABASE_TYPE:sqlite}"
+  name: "${DATABASE_NAME:retail_analytics.db}"
+  host: "${DATABASE_HOST:localhost}"
+  port: "${DATABASE_PORT:5432}"
+  username: "${DATABASE_USER:retail_user}"
+  password: "${DATABASE_PASSWORD:password}"
+  
+  # Connection settings
+  connection:
+    pool_size: 10
+    max_overflow: 20
+    pool_timeout: 30
+    pool_recycle: 3600
+    echo: false
+    echo_pool: false
+    
+  # SQLite specific settings
+  sqlite:
+    path: "data/database/"
+    filename: "${DATABASE_NAME:retail_analytics.db}"
+    
+  # PostgreSQL specific settings
+  postgresql:
+    schema: "retail_analytics"
+    sslmode: "prefer"
+    
+  # MySQL specific settings
+  mysql:
+    charset: "utf8mb4"
+    collation: "utf8mb4_unicode_ci"
+
+# Connection Strings
+connection_strings:
+  sqlite: "sqlite:///${PROCESSED_DATA_PATH:data/processed/}${DATABASE_NAME:retail_analytics.db}"
+  postgresql: "postgresql://${DATABASE_USER:user}:${DATABASE_PASSWORD:password}@${DATABASE_HOST:localhost}:${DATABASE_PORT:5432}/${DATABASE_NAME:retail_analytics}"
+  mysql: "mysql+pymysql://${DATABASE_USER:user}:${DATABASE_PASSWORD:password}@${DATABASE_HOST:localhost}:${DATABASE_PORT:3306}/${DATABASE_NAME:retail_analytics}"
+
+# Table Configurations
+tables:
+  customers:
+    name: "customers"
+    primary_key: "customer_id"
+    indexes:
+      - ["customer_id"]
+      - ["age"]
+      - ["location"]
+      
+  transactions:
+    name: "transactions"
+    primary_key: "transaction_id"
+    foreign_keys:
+      - ["customer_id", "customers.customer_id"]
+    indexes:
+      - ["customer_id"]
+      - ["purchase_date"]
+      - ["category"]
+      
+  customer_segments:
+    name: "customer_segments"
+    primary_key: "segment_id"
+    foreign_keys:
+      - ["customer_id", "customers.customer_id"]
+    indexes:
+      - ["customer_id"]
+      - ["segment_label"]
+      - ["created_date"]
+      
+  model_predictions:
+    name: "model_predictions"
+    primary_key: "prediction_id"
+    foreign_keys:
+      - ["customer_id", "customers.customer_id"]
+    indexes:
+      - ["customer_id"]
+      - ["model_name"]
+      - ["prediction_date"]
+
+# Data Types Mapping
+data_types:
+  customer_id: "VARCHAR(50)"
+  transaction_id: "VARCHAR(50)"
+  age: "INTEGER"
+  gender: "VARCHAR(10)"
+  purchase_amount: "DECIMAL(10,2)"
+  purchase_date: "DATE"
+  category: "VARCHAR(100)"
+  location: "VARCHAR(100)"
+  segment_label: "INTEGER"
+  prediction_score: "DECIMAL(5,4)"
+  created_date: "TIMESTAMP"
+  updated_date: "TIMESTAMP"
+
+# Backup and Maintenance
+backup:
+  enabled: true
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  retention_days: 30
+  path: "backups/database/"
+  
+maintenance:
+  auto_vacuum: true
+  analyze_schedule: "0 3 * * 0"  # Weekly on Sunday at 3 AM
+  
+# Performance Settings
+performance:
+  batch_size: 1000
+  commit_frequency: 100
+  query_timeout: 300
+  connection_timeout: 30
+  
+# Security Settings
+security:
+  encrypt_connections: true
+  require_ssl: false
+  allowed_hosts:
+    - "localhost"
+    - "127.0.0.1"
+  
+# Logging
+logging:
+  log_queries: false
+  slow_query_threshold: 1.0  # seconds
+  log_level: "INFO"
