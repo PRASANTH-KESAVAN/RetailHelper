@@ -1,0 +1,20 @@
+Column,Data_Type,Missing_Count,Missing_Percentage,Unique_Values
+Customer ID,int64,0,0.0,3900
+Age,int64,0,0.0,53
+Gender,object,0,0.0,2
+Item Purchased,object,0,0.0,25
+Category,object,0,0.0,4
+Purchase Amount (USD),int64,0,0.0,81
+Location,object,0,0.0,50
+Size,object,0,0.0,4
+Color,object,0,0.0,25
+Season,object,0,0.0,4
+Review Rating,float64,0,0.0,26
+Subscription Status,object,0,0.0,2
+Payment Method,object,0,0.0,6
+Shipping Type,object,0,0.0,6
+Discount Applied,object,0,0.0,2
+Promo Code Used,object,0,0.0,2
+Previous Purchases,int64,0,0.0,50
+Preferred Payment Method,object,0,0.0,6
+Frequency of Purchases,object,0,0.0,7
