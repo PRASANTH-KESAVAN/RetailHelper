@@ -297,9 +297,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For support and questions:
-- **Email**: support@your-email.com
-- **Slack**: [Join our Slack](https://your-slack-invite.com)
-- **Documentation**: [Read the Docs](https://your-docs-link.com)
+- **Email**: prasanthk3022@gmail.com
+
 
 ## 🎉 Acknowledgments
 
