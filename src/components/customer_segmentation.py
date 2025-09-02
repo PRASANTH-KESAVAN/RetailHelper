@@ -86,26 +86,19 @@ class CustomerSegmentation:
         logger.info(f"Customer features created for {len(customer_features)} customers")
         return customer_features
     
-    def select_features_for_clustering(self, df: pd.DataFrame, 
-                                     feature_columns: Optional[List[str]] = None) -> np.ndarray:
-        """
-        Select and prepare features for clustering
-        """
+    def select_features_for_clustering(self, df: pd.DataFrame, feature_columns: Optional[List[str]] = None) -> Tuple[np.ndarray, pd.DataFrame]:
         if feature_columns is None:
-            # Default feature selection
             numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
             feature_columns = [col for col in numeric_columns if col != 'Customer ID']
-        
+
         self.feature_names = feature_columns
-        features = df[feature_columns].fillna(0)  # Handle any remaining NaN values
-        
-        # Scale features
+        features = df[feature_columns].fillna(0)  
+
         features_scaled = self.scaler.fit_transform(features)
-        
+
         logger.info(f"Selected {len(feature_columns)} features for clustering")
-        logger.info(f"Features: {feature_columns}")
-        
-        return features_scaled
+        return features_scaled, features
+
     
     def find_optimal_clusters(self, X: np.ndarray, max_clusters: int = 10) -> Dict:
         """

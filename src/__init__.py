@@ -12,7 +12,7 @@ This package provides comprehensive tools for retail customer analysis including
 """
 
 __version__ = "1.0.0"
-__author__ = "Prasanth"
+__author__ = "Data science Team"
 __email__ = "team@retailanalytics.com"
 
 # Package imports

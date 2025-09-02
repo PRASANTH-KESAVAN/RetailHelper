@@ -8,11 +8,12 @@ from pathlib import Path
 from loguru import logger
 import joblib
 
-from components.data_ingestion import DataIngestion
-from components.data_preprocessing import DataPreprocessor
-from components.feature_engineering import FeatureEngineering
-from components.customer_segmentation import CustomerSegmentation
-from utils.common import ensure_directory_exists
+from src.components.data_ingestion import DataIngestion
+from src.components.data_preprocessing import DataPreprocessor
+from src.components.feature_engineering import FeatureEngineering
+from src.components.customer_segmentation import CustomerSegmentation
+from src.utils.common import ensure_directory_exists
+
 
 class DataPipeline:
     """

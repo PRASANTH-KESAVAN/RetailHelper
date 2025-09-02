@@ -1,0 +1,34 @@
+app:
+  name: "Retail Customer Analytics"
+  version: "1.0.0"
+  environment: "development"  # development, staging, production
+  debug: true
+
+data:
+  sources:
+    primary_dataset: "data/raw/customer_shopping_data.csv"
+    backup_source: "s3://retail-analytics-backup/data/"
+  processing:
+    chunk_size: 10000
+    sample_size: 2000
+    random_state: 42
+
+feature_engineering:
+  rfm:
+    recency_periods: [30, 90, 180, 365]
+    frequency_bins: 5
+    monetary_bins: 5
+  customer_features:
+    create_age_groups: true
+    create_spending_tiers: true
+    create_loyalty_score: true
+
+models:
+  segmentation:
+    method: "kmeans"
+    n_clusters_range: [2, 10]
+  predictive:
+    churn_prediction:
+      algorithms: ["random_forest", "logistic_regression", "xgboost"]
+    clv_prediction:
+      algorithms: ["random_forest", "linear_regression", "xgboost"]

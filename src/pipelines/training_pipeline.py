@@ -9,13 +9,14 @@ from loguru import logger
 import joblib
 import os
 
-from components.data_preprocessing import DataPreprocessor
-from components.feature_engineering import FeatureEngineering
-from components.customer_segmentation import CustomerSegmentation
-from components.predictive_modeling import PredictiveModeling
-from components.recommendation_engine import RecommendationEngine
-from components.model_evaluation import ModelEvaluation
-from utils.common import ensure_directory_exists
+from src.components.data_preprocessing import DataPreprocessor
+from src.components.feature_engineering import FeatureEngineering
+from src.components.customer_segmentation import CustomerSegmentation
+from src.components.predictive_modeling import PredictiveModeling
+from src.components.predictive_modeling import PredictiveModeling
+from src.components.recommendation_engine import RecommendationEngine
+from src.components.model_evaluation import ModelEvaluation
+from src.utils.common import ensure_directory_exists
 
 class TrainingPipeline:
     """
@@ -67,7 +68,12 @@ class TrainingPipeline:
             segmentation_results = {}
             
             # Prepare features for clustering
-            clustering_features = self.segmentation.select_features_for_clustering(df)
+            clustering_features, clustering_df = self.segmentation.select_features_for_clustering(df)
+
+            cluster_labels = self.segmentation.perform_kmeans_clustering(clustering_features, n_clusters=n_clusters)
+
+            segment_analysis = self.segmentation.analyze_segments(clustering_df, cluster_labels)
+
             
             # Find optimal number of clusters
             optimal_analysis = self.segmentation.find_optimal_clusters(clustering_features, max_clusters=10)

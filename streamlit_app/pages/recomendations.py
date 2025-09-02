@@ -12,9 +12,9 @@ from pathlib import Path
 # Add src to path for imports
 sys.path.append(str(Path(__file__).parent.parent.parent / "src"))
 
-from utils.common import load_sample_data
-from components.recommendation_engine import RecommendationEngine
-from components.customer_segmentation import CustomerSegmentation
+from src.utils.common import load_sample_data
+from src.components.recommendation_engine import RecommendationEngine
+from src.components.customer_segmentation import CustomerSegmentation
 
 # Page configuration
 st.set_page_config(
@@ -74,7 +74,7 @@ def load_data():
         st.error(f"Error loading data: {e}")
         return load_sample_data(n_customers=1000)
 
-@st.cache_data
+@st.cache_resource
 def setup_recommendation_system(df):
     """Setup and prepare recommendation system"""
     try:
